@@ -16,7 +16,7 @@ export default function StartScreen({ onStart, totalQuestions }: StartScreenProp
         </div>
         <h1 className="start-title">Карточка Викторинасы</h1>
         <p className="start-description">
-          Ғылым, тарих, өнер және тағы басқа салалар бойынша {totalQuestions} сұраққа жауап беріп, біліміңізді тексеріңіз!
+          Дидактика, оқыту теориялары және педагогика бойынша {totalQuestions} сұраққа жауап беріп, біліміңізді тексеріңіз!
           Түсіндірмені көру үшін карточканы аударыңыз!
         </p>
         <div className="start-features">
