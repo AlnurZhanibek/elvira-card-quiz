@@ -10,11 +10,11 @@ export default function Results({ score, total, onRestart }: ResultsProps) {
   const percentage = Math.round((score / total) * 100);
 
   const getMessage = () => {
-    if (percentage === 100) return { title: "Perfect Score!", subtitle: "You're a genius!" };
-    if (percentage >= 80) return { title: "Amazing!", subtitle: "Almost perfect!" };
-    if (percentage >= 60) return { title: "Well Done!", subtitle: "Good knowledge!" };
-    if (percentage >= 40) return { title: "Not Bad!", subtitle: "Keep learning!" };
-    return { title: "Keep Trying!", subtitle: "Practice makes perfect!" };
+    if (percentage === 100) return { title: "Тамаша нәтиже!", subtitle: "Сіз данышпансыз!" };
+    if (percentage >= 80) return { title: "Керемет!", subtitle: "Тамашаға жуық!" };
+    if (percentage >= 60) return { title: "Жарайсыз!", subtitle: "Біліміңіз жақсы!" };
+    if (percentage >= 40) return { title: "Жаман емес!", subtitle: "Оқуды жалғастырыңыз!" };
+    return { title: "Тырысыңыз!", subtitle: "Жаттығу шеберлікке жеткізеді!" };
   };
 
   const { title, subtitle } = getMessage();
@@ -67,18 +67,18 @@ export default function Results({ score, total, onRestart }: ResultsProps) {
           <div className="breakdown-item correct">
             <span className="breakdown-icon">✓</span>
             <span className="breakdown-count">{score}</span>
-            <span className="breakdown-label">Correct</span>
+            <span className="breakdown-label">Дұрыс</span>
           </div>
           <div className="breakdown-divider" />
           <div className="breakdown-item wrong">
             <span className="breakdown-icon">✗</span>
             <span className="breakdown-count">{total - score}</span>
-            <span className="breakdown-label">Wrong</span>
+            <span className="breakdown-label">Қате</span>
           </div>
         </div>
 
         <button className="restart-btn" onClick={onRestart}>
-          Play Again
+          Қайта ойнау
         </button>
       </div>
     </div>

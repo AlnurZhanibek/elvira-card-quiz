@@ -40,7 +40,7 @@ export default function QuizCard({ question, onAnswer, index, total }: QuizCardP
         <div className="card-inner">
           {/* Front */}
           <div className="card-face card-front">
-            <div className="question-badge">Question {index + 1}</div>
+            <div className="question-badge">{index + 1}-сұрақ</div>
             <h2 className="question-text">{question.question}</h2>
             <div className="options-grid">
               {question.options.map((option, i) => (
@@ -71,11 +71,11 @@ export default function QuizCard({ question, onAnswer, index, total }: QuizCardP
               {selectedIndex === question.correctIndex ? "✓" : "✗"}
             </div>
             <h3 className="result-title">
-              {selectedIndex === question.correctIndex ? "Correct!" : "Not quite!"}
+              {selectedIndex === question.correctIndex ? "Дұрыс!" : "Қате!"}
             </h3>
             <p className="explanation">{question.explanation}</p>
             <button className="next-btn" onClick={handleNext}>
-              {index < total - 1 ? "Next Question →" : "See Results →"}
+              {index < total - 1 ? "Келесі сұрақ →" : "Нәтижені көру →"}
             </button>
           </div>
         </div>

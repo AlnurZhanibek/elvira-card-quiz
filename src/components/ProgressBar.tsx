@@ -12,8 +12,8 @@ export default function ProgressBar({ current, total, score }: ProgressBarProps)
   return (
     <div className="progress-container">
       <div className="progress-info">
-        <span className="progress-label">Progress</span>
-        <span className="progress-score">Score: {score}/{current}</span>
+        <span className="progress-label">Барысы</span>
+        <span className="progress-score">Ұпай: {score}/{current}</span>
       </div>
       <div className="progress-track">
         <div className="progress-fill" style={{ width: `${progress}%` }} />

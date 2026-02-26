@@ -14,27 +14,27 @@ export default function StartScreen({ onStart, totalQuestions }: StartScreenProp
           <div className="icon-ring" />
           <div className="icon-ring ring-2" />
         </div>
-        <h1 className="start-title">Card Quiz</h1>
+        <h1 className="start-title">Карточка Викторинасы</h1>
         <p className="start-description">
-          Test your knowledge with {totalQuestions} questions across science, history, art, and more.
-          Flip the cards to reveal explanations!
+          Ғылым, тарих, өнер және тағы басқа салалар бойынша {totalQuestions} сұраққа жауап беріп, біліміңізді тексеріңіз!
+          Түсіндірмені көру үшін карточканы аударыңыз!
         </p>
         <div className="start-features">
           <div className="feature">
             <span className="feature-icon">🧠</span>
-            <span>{totalQuestions} Questions</span>
+            <span>{totalQuestions} сұрақ</span>
           </div>
           <div className="feature">
             <span className="feature-icon">🔄</span>
-            <span>Flip Cards</span>
+            <span>Карточканы аудару</span>
           </div>
           <div className="feature">
             <span className="feature-icon">⭐</span>
-            <span>Score Tracking</span>
+            <span>Ұпай есебі</span>
           </div>
         </div>
         <button className="start-btn" onClick={onStart}>
-          Start Quiz
+          Бастау
         </button>
       </div>
     </div>
