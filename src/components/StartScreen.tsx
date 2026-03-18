@@ -14,9 +14,9 @@ export default function StartScreen({ onStart, totalQuestions }: StartScreenProp
           <div className="icon-ring" />
           <div className="icon-ring ring-2" />
         </div>
-        <h1 className="start-title">Карточка Викторинасы</h1>
+        <h1 className="start-title">📘 Педагогика бойынша тест</h1>
         <p className="start-description">
-          Дидактика, оқыту теориялары және педагогика бойынша {totalQuestions} сұраққа жауап беріп, біліміңізді тексеріңіз!
+          Педагогикалық зерттеу әдістері мен ұғымдары бойынша {totalQuestions} сұраққа жауап беріп, біліміңізді тексеріңіз!
           Түсіндірмені көру үшін карточканы аударыңыз!
         </p>
         <div className="start-features">
