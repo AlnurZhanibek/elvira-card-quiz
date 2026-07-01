@@ -1,0 +1,1033 @@
+<!doctype html>
+<html lang="kk">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Квиз: Қазақстанның минералды ресурстары</title>
+    <style>
+      :root {
+        --bg: #f4ede0;
+        --ink: #2b241c;
+        --rust: #b5502e;
+        --ochre: #c98a2c;
+        --slate: #38424a;
+        --sand: #e7dcc4;
+        --good: #4a7a4a;
+        --bad: #a83c3c;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        font-family: "Georgia", "Times New Roman", serif;
+        color: var(--ink);
+        padding: 32px 16px 80px;
+      }
+      .wrap {
+        max-width: 720px;
+        margin: 0 auto;
+      }
+      header {
+        text-align: center;
+        margin-bottom: 28px;
+      }
+      .eyebrow {
+        font-family: "Courier New", monospace;
+        letter-spacing: 3px;
+        font-size: 12px;
+        text-transform: uppercase;
+        color: var(--rust);
+        margin-bottom: 8px;
+      }
+      h1 {
+        font-size: 30px;
+        line-height: 1.2;
+        margin: 0 0 10px;
+        color: var(--slate);
+      }
+      .sub {
+        color: #665c4d;
+        font-size: 15px;
+        max-width: 520px;
+        margin: 0 auto;
+      }
+      .strata {
+        display: flex;
+        height: 16px;
+        border-radius: 3px;
+        overflow: hidden;
+        margin: 26px 0 6px;
+        border: 1px solid #cabd9f;
+      }
+      .strata div {
+        flex: 1;
+        background: var(--sand);
+        border-right: 1px solid #cabd9f;
+        transition: background 0.3s;
+      }
+      .strata div:last-child {
+        border-right: none;
+      }
+      .strata div.done {
+        background: var(--ochre);
+      }
+      .strata div.done.correct {
+        background: var(--good);
+      }
+      .strata div.done.wrong {
+        background: var(--rust);
+      }
+      .progress-label {
+        font-family: "Courier New", monospace;
+        font-size: 12px;
+        color: #7a6f5c;
+        text-align: right;
+      }
+
+      .card {
+        background: #fffdf8;
+        border: 1px solid #ddd0b3;
+        border-left: 5px solid var(--rust);
+        border-radius: 6px;
+        padding: 26px 24px;
+        margin-top: 20px;
+        box-shadow: 0 2px 6px rgba(43, 36, 28, 0.05);
+      }
+      .qnum {
+        font-family: "Courier New", monospace;
+        color: var(--ochre);
+        font-size: 13px;
+        margin-bottom: 6px;
+      }
+      .qtext {
+        font-size: 19px;
+        line-height: 1.4;
+        margin: 0 0 18px;
+        color: var(--slate);
+      }
+      .options {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .opt {
+        text-align: left;
+        padding: 12px 14px;
+        border: 1px solid #d8cba9;
+        border-radius: 5px;
+        background: #fbf6ea;
+        cursor: pointer;
+        font-family: inherit;
+        font-size: 15.5px;
+        color: var(--ink);
+        transition: all 0.15s;
+      }
+      .opt:hover {
+        border-color: var(--ochre);
+        background: #f5ecd6;
+      }
+      .opt:disabled {
+        cursor: default;
+      }
+      .opt.correct {
+        background: #e4efe0;
+        border-color: var(--good);
+        color: #2e4a2e;
+        font-weight: bold;
+      }
+      .opt.wrong {
+        background: #f4e0dc;
+        border-color: var(--bad);
+        color: #6b2222;
+      }
+      .opt.dim {
+        opacity: 0.55;
+      }
+
+      .explain {
+        margin-top: 14px;
+        font-size: 14.5px;
+        color: #4a4335;
+        background: var(--sand);
+        border-radius: 5px;
+        padding: 10px 14px;
+        display: none;
+      }
+      .explain.show {
+        display: block;
+      }
+
+      .result {
+        text-align: center;
+        padding: 40px 20px;
+      }
+      .result .score {
+        font-size: 54px;
+        color: var(--rust);
+        font-weight: bold;
+        line-height: 1;
+      }
+      .result .out-of {
+        color: #7a6f5c;
+        font-size: 16px;
+        margin-bottom: 20px;
+      }
+      .verdict {
+        font-size: 17px;
+        margin-bottom: 26px;
+        color: var(--slate);
+      }
+      button.reset {
+        font-family: "Courier New", monospace;
+        background: var(--slate);
+        color: #f4ede0;
+        border: none;
+        padding: 12px 22px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+      }
+      button.reset:hover {
+        background: #242c32;
+      }
+
+      .hidden {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <div class="eyebrow">§ 14–15 · Пайдалы қазбалар</div>
+        <h1>Қазақстанның минералды ресурстары</h1>
+        <p class="sub">
+          Конспект бойынша 15 сұрақ: Қазақстанның минералды ресурстарын өндіру
+          және өңдеу.
+        </p>
+      </header>
+
+      <div class="strata" id="strata"></div>
+      <div class="progress-label" id="progressLabel">1-сұрақ / 15</div>
+
+      <div id="quizArea"></div>
+
+      <div class="result hidden" id="resultArea">
+        <div class="score" id="scoreNum">0/15</div>
+        <div class="out-of">дұрыс жауап</div>
+        <div class="verdict" id="verdictText"></div>
+        <button class="reset" onclick="restart()">Қайта тапсыру</button>
+      </div>
+    </div>
+
+    <script>
+      const QUESTIONS = [
+        {
+          q: "Пайдалы қазбалар дегеніміз не?",
+          options: [
+            "Тек ашық әдіспен өндірілетін металдар",
+            "Жер қойнауында кездесетін, шаруашылықта табиғи күйінде немесе байытқаннан кейін пайдаланылатын табиғи минералдық ресурстар",
+            "Су мен орманды қоса алғанда кез келген табиғи ресурстар",
+            "Тек платформаларда кездесетін ресурстар",
+          ],
+          correct: 1,
+          explain:
+            "Пайдалы қазбалар — жер қойнауында кездесетін, шаруашылық салаларына табиғи күйінде және байытқаннан кейін пайдаланылатын табиғи минералдық ресурстар.",
+        },
+        {
+          q: "Пайдаланылуына байланысты пайдалы қазбалар қандай үш топқа бөлінеді?",
+          options: [
+            "Қатты, сұйық, газ тәрізді",
+            "Жанғыш, кенді, кенсіз",
+            "Металды, металл емес, органикалық",
+            "Платформалық, геосинклинальды, аралас",
+          ],
+          correct: 1,
+          explain:
+            "Пайдаланылуына байланысты жіктеу: жанғыш (минералды отын), кенді (металдар) және кенсіз пайдалы қазбалар.",
+        },
+        {
+          q: "Қазақстанда ірі мұнай бұрқағы қай жылы және қай жерде атқылады?",
+          options: [
+            "1899 жылы, Атырауда",
+            "1911 жылы, Орал-Ембі алабындағы Доссорда",
+            "1921 жылы, Теңізде",
+            "1933 жылы, Қашағанда",
+          ],
+          correct: 1,
+          explain:
+            "Ірі мұнай бұрқағы 1911 жылы Орал-Ембі алабындағы Доссорда атқылады.",
+        },
+        {
+          q: "Конспектте аталған Қазақстанның ірі мұнай-газ кен орындарының қатарына КІРМЕЙТІНІ қайсы?",
+          options: ["Қашаған", "Теңіз", "Қарашығанақ", "Екібастұз"],
+          correct: 3,
+          explain:
+            "Екібастұз — көмір алабы, мұнай-газ кен орны емес. Мұнай-газ кен орындарына Қашаған, Теңіз, Қарашығанақ, Құмкөл жатады.",
+        },
+        {
+          q: "Мұнайдың барланған қоры бойынша Қазақстан әлемде қай орында тұр (BP Statistical Review, 2021 ж.)?",
+          options: [
+            "Бірінші орында",
+            "Екінші орында",
+            "Бесінші орында",
+            "Оныншы орында",
+          ],
+          correct: 1,
+          explain:
+            "Қазақстан мұнайдың барланған қоры бойынша әлемде екінші орында тұр.",
+        },
+        {
+          q: "Қазақстанда қандай үш көмір түрі өндіріледі?",
+          options: [
+            "Қоңыр көмір, таскөмір, антрацит",
+            "Кокс, шымтезек, лигнит",
+            "Антрацит, тақтатас, графит",
+            "Қоңыр көмір, кокс, шымтезек",
+          ],
+          correct: 0,
+          explain:
+            "Технологиялық қасиеттеріне қарай қоңыр көмір, таскөмір және антрацит түрлері ажыратылады.",
+        },
+        {
+          q: "Қарағанды көмір алабын кім және қай жылы ашты?",
+          options: [
+            "Сәтбаев 1899 жылы",
+            "Аппақ Байжанов 1833 жылы",
+            "Шоқан Уәлиханов 1850 жылы",
+            "Абылай хан 1780 жылы",
+          ],
+          correct: 1,
+          explain: "Қарағанды көмір алабын Аппақ Байжанов 1833 жылы ашқан.",
+        },
+        {
+          q: "Екібастұз көмір алабының ерекшелігі неде?",
+          options: [
+            "Жоғары сапалы кокстелетін көмір өндіріледі",
+            "Құрамында күлі көп таскөмір ашық әдіспен өндіріледі, электр энергиясын өндіруге қолданылады",
+            "Бұл елдегі жалғыз қоңыр көмір кен орны",
+            "Көмір тек жерасты (шахта) әдісімен өндіріледі",
+          ],
+          correct: 1,
+          explain:
+            "Екібастұз алабында электр энергиясын өндіруге қолданылатын, құрамында күлі көп таскөмір ашық әдіспен (Солтүстік, Шығыс, Богатырь қималарында) өндіріледі.",
+        },
+        {
+          q: "Қазақстанның көмір қоры Азия құрлығындағы жалпы көмір қорының қандай бөлігін құрайды?",
+          options: [
+            "Азия қорының шамамен 1/3 бөлігін",
+            "Әлемде бірінші орынды",
+            "Қоры шамалы ғана",
+            "Азияда бесінші орынды",
+          ],
+          correct: 0,
+          explain:
+            "Қазақстанның барланған көмір қоры 176,6 млрд тонна, бұл Азиядағы көмір қорының шамамен 1/3 бөлігін құрайды.",
+        },
+        {
+          q: "Темір кенінің негізгі кен орындары Қазақстанда қай жерде орналасқан?",
+          options: [
+            "Қостанай облысы (Әйет және Лисаков кен орындары)",
+            "Ақтөбе облысы",
+            "Шығыс Қазақстан облысы",
+            "Маңғыстау облысы",
+          ],
+          correct: 0,
+          explain:
+            "Темір кенінің басты орталықтары — Қостанай облысындағы Әйет (Аят) және Лисаков кен орындары.",
+        },
+        {
+          q: "Хром қоры жөнінен Қазақстан қандай орында тұр?",
+          options: [
+            "Әлемде бірінші орында",
+            "ТМД-да бірінші орында",
+            "ТМД-да екінші орында",
+            "Әлемде бесінші орында",
+          ],
+          correct: 1,
+          explain:
+            "Хром қоры жөнінен Қазақстан ТМД-да бірінші орында тұр; басты орталықтары — Ақтөбе облысындағы Хромтау және Дөң кен орындары.",
+        },
+        {
+          q: "Молибден мен вольфрам (сирек металдар) кен орындары негізінен қай жерде шоғырланған?",
+          options: [
+            "Маңғыстау облысында",
+            "Орталық Қазақстанда (Сарыарқа): Қараоба, Ақшатау, Жоғарғы Қайрақты",
+            "Солтүстік Қазақстанда",
+            "Жетісуда",
+          ],
+          correct: 1,
+          explain:
+            "Сирек металдар — молибден мен вольфрам — Орталық Қазақстанда (Сарыарқада): Қараоба, Ақшатау, Жоғарғы Қайрақты кен орындарында шоғырланған.",
+        },
+        {
+          q: "Алюминий қандай кеннен алынады және оның қорының 90%-ы қай жерде шоғырланған?",
+          options: [
+            "Бокситтен; қорының 90%-ы Қостанай облысы, Торғай қолатында",
+            "Хромиттен; Ақтөбе облысында",
+            "Бокситтен; Шығыс Қазақстан облысында",
+            "Магнетиттен; Қарағанды облысында",
+          ],
+          correct: 0,
+          explain:
+            "Алюминийдің басты кені — боксит. Оның қорының 90%-ы Қостанай облысында, Торғай қолатында шоғырланған (22 кен орны).",
+        },
+        {
+          q: "Тыңайтқыш өндіруге қажетті негізгі шикізат қандай және ол қайда өндіріледі?",
+          options: [
+            "Асбест — Қостанай облысы",
+            "Барит — Жамбыл облысы",
+            "Фосфорит — Қаратау (Жамбыл обл.) және Шилісай (Ақтөбе обл.)",
+            "Гранит — Алматы облысы",
+          ],
+          correct: 2,
+          explain:
+            "Фосфорит — тыңайтқыш өндіруге қажетті негізгі химиялық шикізат; Қаратауда (Жамбыл облысы) және Шилісайда (Ақтөбе облысы) өндіріледі.",
+        },
+        {
+          q: "Полиметалл дегеніміз не?",
+          options: [
+            "Бірнеше асыл металдың қорытпасы",
+            "Құрамында бірнеше металл элементтері (қорғасын, мырыш т.б.) бар кешенді кен",
+            "Тек ашық әдіспен өндірілетін металдар",
+            "Сирек металдардың синонимі",
+          ],
+          correct: 1,
+          explain:
+            "Полиметалл — құрамында бірнеше металл элементі, көбінесе қорғасын мен мырыш бірге кездесетін кешенді кен.",
+        },
+      ];
+
+      let current = 0;
+      let score = 0;
+      let answers = [];
+
+      function renderStrata() {
+        const strata = document.getElementById("strata");
+        strata.innerHTML = "";
+        QUESTIONS.forEach((_, i) => {
+          const seg = document.createElement("div");
+          if (answers[i] !== undefined) {
+            seg.classList.add("done", answers[i] ? "correct" : "wrong");
+          }
+          strata.appendChild(seg);
+        });
+        document.getElementById("progressLabel").textContent =
+          current < QUESTIONS.length
+            ? `${current + 1}-сұрақ / ${QUESTIONS.length}`
+            : `Аяқталды`;
+      }
+
+      function renderQuestion() {
+        renderStrata();
+        const area = document.getElementById("quizArea");
+        const item = QUESTIONS[current];
+        area.innerHTML = `
+    <div class="card">
+      <div class="qnum">${current + 1}-СҰРАҚ</div>
+      <p class="qtext">${item.q}</p>
+      <div class="options" id="optionsWrap"></div>
+      <div class="explain" id="explainBox"></div>
+    </div>
+  `;
+        const wrap = document.getElementById("optionsWrap");
+        item.options.forEach((opt, idx) => {
+          const btn = document.createElement("button");
+          btn.className = "opt";
+          btn.textContent = opt;
+          btn.onclick = () => selectAnswer(idx);
+          wrap.appendChild(btn);
+        });
+      }
+
+      function selectAnswer(idx) {
+        const item = QUESTIONS[current];
+        const buttons = document.querySelectorAll("#optionsWrap .opt");
+        buttons.forEach((b, i) => {
+          b.disabled = true;
+          if (i === item.correct) b.classList.add("correct");
+          else if (i === idx) b.classList.add("wrong");
+          else b.classList.add("dim");
+        });
+        const isCorrect = idx === item.correct;
+        if (isCorrect) score++;
+        answers[current] = isCorrect;
+
+        const explainBox = document.getElementById("explainBox");
+        explainBox.textContent = item.explain;
+        explainBox.classList.add("show");
+
+        const card = document.querySelector(".card");
+        const nextBtn = document.createElement("button");
+        nextBtn.className = "opt";
+        nextBtn.style.marginTop = "16px";
+        nextBtn.style.borderColor = "#38424a";
+        nextBtn.style.color = "#38424a";
+        nextBtn.style.fontWeight = "bold";
+        nextBtn.textContent =
+          current === QUESTIONS.length - 1
+            ? "Нәтижені көрсету →"
+            : "Келесі сұрақ →";
+        nextBtn.onclick = () => {
+          current++;
+          if (current < QUESTIONS.length) {
+            renderQuestion();
+          } else {
+            showResult();
+          }
+        };
+        card.appendChild(nextBtn);
+        renderStrata();
+      }
+
+      function showResult() {
+        document.getElementById("quizArea").classList.add("hidden");
+        document.getElementById("resultArea").classList.remove("hidden");
+        document.getElementById("scoreNum").textContent =
+          `${score}/${QUESTIONS.length}`;
+        let verdict;
+        const pct = score / QUESTIONS.length;
+        if (pct === 1) verdict = "Керемет! Тақырып толық меңгерілген.";
+        else if (pct >= 0.8)
+          verdict = "Жақсы нәтиже — материал жақсы меңгерілген.";
+        else if (pct >= 0.5)
+          verdict = "Жаман емес, бірақ конспектіні қайта қарап шыққан жөн.";
+        else
+          verdict =
+            "Келесі тексеруге дейін конспектіні қайта оқып шыққан дұрыс.";
+        document.getElementById("verdictText").textContent = verdict;
+        renderStrata();
+      }
+
+      function restart() {
+        current = 0;
+        score = 0;
+        answers = [];
+        document.getElementById("resultArea").classList.add("hidden");
+        document.getElementById("quizArea").classList.remove("hidden");
+        renderQuestion();
+      }
+
+      renderQuestion();
+    </script>
+  </body>
+</html>
+<html lang="kk">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Квиз: Қазақстанның минералды ресурстары</title>
+    <style>
+      :root {
+        --bg: #f4ede0;
+        --ink: #2b241c;
+        --rust: #b5502e;
+        --ochre: #c98a2c;
+        --slate: #38424a;
+        --sand: #e7dcc4;
+        --good: #4a7a4a;
+        --bad: #a83c3c;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        font-family: "Georgia", "Times New Roman", serif;
+        color: var(--ink);
+        padding: 32px 16px 80px;
+      }
+      .wrap {
+        max-width: 720px;
+        margin: 0 auto;
+      }
+      header {
+        text-align: center;
+        margin-bottom: 28px;
+      }
+      .eyebrow {
+        font-family: "Courier New", monospace;
+        letter-spacing: 3px;
+        font-size: 12px;
+        text-transform: uppercase;
+        color: var(--rust);
+        margin-bottom: 8px;
+      }
+      h1 {
+        font-size: 30px;
+        line-height: 1.2;
+        margin: 0 0 10px;
+        color: var(--slate);
+      }
+      .sub {
+        color: #665c4d;
+        font-size: 15px;
+        max-width: 520px;
+        margin: 0 auto;
+      }
+      .strata {
+        display: flex;
+        height: 16px;
+        border-radius: 3px;
+        overflow: hidden;
+        margin: 26px 0 6px;
+        border: 1px solid #cabd9f;
+      }
+      .strata div {
+        flex: 1;
+        background: var(--sand);
+        border-right: 1px solid #cabd9f;
+        transition: background 0.3s;
+      }
+      .strata div:last-child {
+        border-right: none;
+      }
+      .strata div.done {
+        background: var(--ochre);
+      }
+      .strata div.done.correct {
+        background: var(--good);
+      }
+      .strata div.done.wrong {
+        background: var(--rust);
+      }
+      .progress-label {
+        font-family: "Courier New", monospace;
+        font-size: 12px;
+        color: #7a6f5c;
+        text-align: right;
+      }
+
+      .card {
+        background: #fffdf8;
+        border: 1px solid #ddd0b3;
+        border-left: 5px solid var(--rust);
+        border-radius: 6px;
+        padding: 26px 24px;
+        margin-top: 20px;
+        box-shadow: 0 2px 6px rgba(43, 36, 28, 0.05);
+      }
+      .qnum {
+        font-family: "Courier New", monospace;
+        color: var(--ochre);
+        font-size: 13px;
+        margin-bottom: 6px;
+      }
+      .qtext {
+        font-size: 19px;
+        line-height: 1.4;
+        margin: 0 0 18px;
+        color: var(--slate);
+      }
+      .options {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .opt {
+        text-align: left;
+        padding: 12px 14px;
+        border: 1px solid #d8cba9;
+        border-radius: 5px;
+        background: #fbf6ea;
+        cursor: pointer;
+        font-family: inherit;
+        font-size: 15.5px;
+        color: var(--ink);
+        transition: all 0.15s;
+      }
+      .opt:hover {
+        border-color: var(--ochre);
+        background: #f5ecd6;
+      }
+      .opt:disabled {
+        cursor: default;
+      }
+      .opt.correct {
+        background: #e4efe0;
+        border-color: var(--good);
+        color: #2e4a2e;
+        font-weight: bold;
+      }
+      .opt.wrong {
+        background: #f4e0dc;
+        border-color: var(--bad);
+        color: #6b2222;
+      }
+      .opt.dim {
+        opacity: 0.55;
+      }
+
+      .explain {
+        margin-top: 14px;
+        font-size: 14.5px;
+        color: #4a4335;
+        background: var(--sand);
+        border-radius: 5px;
+        padding: 10px 14px;
+        display: none;
+      }
+      .explain.show {
+        display: block;
+      }
+
+      .result {
+        text-align: center;
+        padding: 40px 20px;
+      }
+      .result .score {
+        font-size: 54px;
+        color: var(--rust);
+        font-weight: bold;
+        line-height: 1;
+      }
+      .result .out-of {
+        color: #7a6f5c;
+        font-size: 16px;
+        margin-bottom: 20px;
+      }
+      .verdict {
+        font-size: 17px;
+        margin-bottom: 26px;
+        color: var(--slate);
+      }
+      button.reset {
+        font-family: "Courier New", monospace;
+        background: var(--slate);
+        color: #f4ede0;
+        border: none;
+        padding: 12px 22px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+      }
+      button.reset:hover {
+        background: #242c32;
+      }
+
+      .hidden {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <div class="eyebrow">§ 14–15 · Пайдалы қазбалар</div>
+        <h1>Қазақстанның минералды ресурстары</h1>
+        <p class="sub">
+          Конспект бойынша 15 сұрақ: Қазақстанның минералды ресурстарын өндіру
+          және өңдеу.
+        </p>
+      </header>
+
+      <div class="strata" id="strata"></div>
+      <div class="progress-label" id="progressLabel">1-сұрақ / 15</div>
+
+      <div id="quizArea"></div>
+
+      <div class="result hidden" id="resultArea">
+        <div class="score" id="scoreNum">0/15</div>
+        <div class="out-of">дұрыс жауап</div>
+        <div class="verdict" id="verdictText"></div>
+        <button class="reset" onclick="restart()">Қайта тапсыру</button>
+      </div>
+    </div>
+
+    <script>
+      const QUESTIONS = [
+        {
+          q: "Пайдалы қазбалар дегеніміз не?",
+          options: [
+            "Тек ашық әдіспен өндірілетін металдар",
+            "Жер қойнауында кездесетін, шаруашылықта табиғи күйінде немесе байытқаннан кейін пайдаланылатын табиғи минералдық ресурстар",
+            "Су мен орманды қоса алғанда кез келген табиғи ресурстар",
+            "Тек платформаларда кездесетін ресурстар",
+          ],
+          correct: 1,
+          explain:
+            "Пайдалы қазбалар — жер қойнауында кездесетін, шаруашылық салаларына табиғи күйінде және байытқаннан кейін пайдаланылатын табиғи минералдық ресурстар.",
+        },
+        {
+          q: "Пайдаланылуына байланысты пайдалы қазбалар қандай үш топқа бөлінеді?",
+          options: [
+            "Қатты, сұйық, газ тәрізді",
+            "Жанғыш, кенді, кенсіз",
+            "Металды, металл емес, органикалық",
+            "Платформалық, геосинклинальды, аралас",
+          ],
+          correct: 1,
+          explain:
+            "Пайдаланылуына байланысты жіктеу: жанғыш (минералды отын), кенді (металдар) және кенсіз пайдалы қазбалар.",
+        },
+        {
+          q: "Қазақстанда ірі мұнай бұрқағы қай жылы және қай жерде атқылады?",
+          options: [
+            "1899 жылы, Атырауда",
+            "1911 жылы, Орал-Ембі алабындағы Доссорда",
+            "1921 жылы, Теңізде",
+            "1933 жылы, Қашағанда",
+          ],
+          correct: 1,
+          explain:
+            "Ірі мұнай бұрқағы 1911 жылы Орал-Ембі алабындағы Доссорда атқылады.",
+        },
+        {
+          q: "Конспектте аталған Қазақстанның ірі мұнай-газ кен орындарының қатарына КІРМЕЙТІНІ қайсы?",
+          options: ["Қашаған", "Теңіз", "Қарашығанақ", "Екібастұз"],
+          correct: 3,
+          explain:
+            "Екібастұз — көмір алабы, мұнай-газ кен орны емес. Мұнай-газ кен орындарына Қашаған, Теңіз, Қарашығанақ, Құмкөл жатады.",
+        },
+        {
+          q: "Мұнайдың барланған қоры бойынша Қазақстан әлемде қай орында тұр (BP Statistical Review, 2021 ж.)?",
+          options: [
+            "Бірінші орында",
+            "Екінші орында",
+            "Бесінші орында",
+            "Оныншы орында",
+          ],
+          correct: 1,
+          explain:
+            "Қазақстан мұнайдың барланған қоры бойынша әлемде екінші орында тұр.",
+        },
+        {
+          q: "Қазақстанда қандай үш көмір түрі өндіріледі?",
+          options: [
+            "Қоңыр көмір, таскөмір, антрацит",
+            "Кокс, шымтезек, лигнит",
+            "Антрацит, тақтатас, графит",
+            "Қоңыр көмір, кокс, шымтезек",
+          ],
+          correct: 0,
+          explain:
+            "Технологиялық қасиеттеріне қарай қоңыр көмір, таскөмір және антрацит түрлері ажыратылады.",
+        },
+        {
+          q: "Қарағанды көмір алабын кім және қай жылы ашты?",
+          options: [
+            "Сәтбаев 1899 жылы",
+            "Аппақ Байжанов 1833 жылы",
+            "Шоқан Уәлиханов 1850 жылы",
+            "Абылай хан 1780 жылы",
+          ],
+          correct: 1,
+          explain: "Қарағанды көмір алабын Аппақ Байжанов 1833 жылы ашқан.",
+        },
+        {
+          q: "Екібастұз көмір алабының ерекшелігі неде?",
+          options: [
+            "Жоғары сапалы кокстелетін көмір өндіріледі",
+            "Құрамында күлі көп таскөмір ашық әдіспен өндіріледі, электр энергиясын өндіруге қолданылады",
+            "Бұл елдегі жалғыз қоңыр көмір кен орны",
+            "Көмір тек жерасты (шахта) әдісімен өндіріледі",
+          ],
+          correct: 1,
+          explain:
+            "Екібастұз алабында электр энергиясын өндіруге қолданылатын, құрамында күлі көп таскөмір ашық әдіспен (Солтүстік, Шығыс, Богатырь қималарында) өндіріледі.",
+        },
+        {
+          q: "Қазақстанның көмір қоры Азия құрлығындағы жалпы көмір қорының қандай бөлігін құрайды?",
+          options: [
+            "Азия қорының шамамен 1/3 бөлігін",
+            "Әлемде бірінші орынды",
+            "Қоры шамалы ғана",
+            "Азияда бесінші орынды",
+          ],
+          correct: 0,
+          explain:
+            "Қазақстанның барланған көмір қоры 176,6 млрд тонна, бұл Азиядағы көмір қорының шамамен 1/3 бөлігін құрайды.",
+        },
+        {
+          q: "Темір кенінің негізгі кен орындары Қазақстанда қай жерде орналасқан?",
+          options: [
+            "Қостанай облысы (Әйет және Лисаков кен орындары)",
+            "Ақтөбе облысы",
+            "Шығыс Қазақстан облысы",
+            "Маңғыстау облысы",
+          ],
+          correct: 0,
+          explain:
+            "Темір кенінің басты орталықтары — Қостанай облысындағы Әйет (Аят) және Лисаков кен орындары.",
+        },
+        {
+          q: "Хром қоры жөнінен Қазақстан қандай орында тұр?",
+          options: [
+            "Әлемде бірінші орында",
+            "ТМД-да бірінші орында",
+            "ТМД-да екінші орында",
+            "Әлемде бесінші орында",
+          ],
+          correct: 1,
+          explain:
+            "Хром қоры жөнінен Қазақстан ТМД-да бірінші орында тұр; басты орталықтары — Ақтөбе облысындағы Хромтау және Дөң кен орындары.",
+        },
+        {
+          q: "Молибден мен вольфрам (сирек металдар) кен орындары негізінен қай жерде шоғырланған?",
+          options: [
+            "Маңғыстау облысында",
+            "Орталық Қазақстанда (Сарыарқа): Қараоба, Ақшатау, Жоғарғы Қайрақты",
+            "Солтүстік Қазақстанда",
+            "Жетісуда",
+          ],
+          correct: 1,
+          explain:
+            "Сирек металдар — молибден мен вольфрам — Орталық Қазақстанда (Сарыарқада): Қараоба, Ақшатау, Жоғарғы Қайрақты кен орындарында шоғырланған.",
+        },
+        {
+          q: "Алюминий қандай кеннен алынады және оның қорының 90%-ы қай жерде шоғырланған?",
+          options: [
+            "Бокситтен; қорының 90%-ы Қостанай облысы, Торғай қолатында",
+            "Хромиттен; Ақтөбе облысында",
+            "Бокситтен; Шығыс Қазақстан облысында",
+            "Магнетиттен; Қарағанды облысында",
+          ],
+          correct: 0,
+          explain:
+            "Алюминийдің басты кені — боксит. Оның қорының 90%-ы Қостанай облысында, Торғай қолатында шоғырланған (22 кен орны).",
+        },
+        {
+          q: "Тыңайтқыш өндіруге қажетті негізгі шикізат қандай және ол қайда өндіріледі?",
+          options: [
+            "Асбест — Қостанай облысы",
+            "Барит — Жамбыл облысы",
+            "Фосфорит — Қаратау (Жамбыл обл.) және Шилісай (Ақтөбе обл.)",
+            "Гранит — Алматы облысы",
+          ],
+          correct: 2,
+          explain:
+            "Фосфорит — тыңайтқыш өндіруге қажетті негізгі химиялық шикізат; Қаратауда (Жамбыл облысы) және Шилісайда (Ақтөбе облысы) өндіріледі.",
+        },
+        {
+          q: "Полиметалл дегеніміз не?",
+          options: [
+            "Бірнеше асыл металдың қорытпасы",
+            "Құрамында бірнеше металл элементтері (қорғасын, мырыш т.б.) бар кешенді кен",
+            "Тек ашық әдіспен өндірілетін металдар",
+            "Сирек металдардың синонимі",
+          ],
+          correct: 1,
+          explain:
+            "Полиметалл — құрамында бірнеше металл элементі, көбінесе қорғасын мен мырыш бірге кездесетін кешенді кен.",
+        },
+      ];
+
+      let current = 0;
+      let score = 0;
+      let answers = [];
+
+      function renderStrata() {
+        const strata = document.getElementById("strata");
+        strata.innerHTML = "";
+        QUESTIONS.forEach((_, i) => {
+          const seg = document.createElement("div");
+          if (answers[i] !== undefined) {
+            seg.classList.add("done", answers[i] ? "correct" : "wrong");
+          }
+          strata.appendChild(seg);
+        });
+        document.getElementById("progressLabel").textContent =
+          current < QUESTIONS.length
+            ? `${current + 1}-сұрақ / ${QUESTIONS.length}`
+            : `Аяқталды`;
+      }
+
+      function renderQuestion() {
+        renderStrata();
+        const area = document.getElementById("quizArea");
+        const item = QUESTIONS[current];
+        area.innerHTML = `
+    <div class="card">
+      <div class="qnum">${current + 1}-СҰРАҚ</div>
+      <p class="qtext">${item.q}</p>
+      <div class="options" id="optionsWrap"></div>
+      <div class="explain" id="explainBox"></div>
+    </div>
+  `;
+        const wrap = document.getElementById("optionsWrap");
+        item.options.forEach((opt, idx) => {
+          const btn = document.createElement("button");
+          btn.className = "opt";
+          btn.textContent = opt;
+          btn.onclick = () => selectAnswer(idx);
+          wrap.appendChild(btn);
+        });
+      }
+
+      function selectAnswer(idx) {
+        const item = QUESTIONS[current];
+        const buttons = document.querySelectorAll("#optionsWrap .opt");
+        buttons.forEach((b, i) => {
+          b.disabled = true;
+          if (i === item.correct) b.classList.add("correct");
+          else if (i === idx) b.classList.add("wrong");
+          else b.classList.add("dim");
+        });
+        const isCorrect = idx === item.correct;
+        if (isCorrect) score++;
+        answers[current] = isCorrect;
+
+        const explainBox = document.getElementById("explainBox");
+        explainBox.textContent = item.explain;
+        explainBox.classList.add("show");
+
+        const card = document.querySelector(".card");
+        const nextBtn = document.createElement("button");
+        nextBtn.className = "opt";
+        nextBtn.style.marginTop = "16px";
+        nextBtn.style.borderColor = "#38424a";
+        nextBtn.style.color = "#38424a";
+        nextBtn.style.fontWeight = "bold";
+        nextBtn.textContent =
+          current === QUESTIONS.length - 1
+            ? "Нәтижені көрсету →"
+            : "Келесі сұрақ →";
+        nextBtn.onclick = () => {
+          current++;
+          if (current < QUESTIONS.length) {
+            renderQuestion();
+          } else {
+            showResult();
+          }
+        };
+        card.appendChild(nextBtn);
+        renderStrata();
+      }
+
+      function showResult() {
+        document.getElementById("quizArea").classList.add("hidden");
+        document.getElementById("resultArea").classList.remove("hidden");
+        document.getElementById("scoreNum").textContent =
+          `${score}/${QUESTIONS.length}`;
+        let verdict;
+        const pct = score / QUESTIONS.length;
+        if (pct === 1) verdict = "Керемет! Тақырып толық меңгерілген.";
+        else if (pct >= 0.8)
+          verdict = "Жақсы нәтиже — материал жақсы меңгерілген.";
+        else if (pct >= 0.5)
+          verdict = "Жаман емес, бірақ конспектіні қайта қарап шыққан жөн.";
+        else
+          verdict =
+            "Келесі тексеруге дейін конспектіні қайта оқып шыққан дұрыс.";
+        document.getElementById("verdictText").textContent = verdict;
+        renderStrata();
+      }
+
+      function restart() {
+        current = 0;
+        score = 0;
+        answers = [];
+        document.getElementById("resultArea").classList.add("hidden");
+        document.getElementById("quizArea").classList.remove("hidden");
+        renderQuestion();
+      }
+
+      renderQuestion();
+    </script>
+  </body>
+</html>
